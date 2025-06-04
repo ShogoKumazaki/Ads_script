@@ -1,6 +1,6 @@
 function main() {
   // スプレッドシートのID（実際の使用時に設定）
-  const SPREADSHEET_ID = '';
+  const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
 
   // 取得期間設定（月数）
   const MONTHS_AGO = 6;
