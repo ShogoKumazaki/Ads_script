@@ -50,7 +50,6 @@ function exportConversionReport(sheetName, startDate, endDate, spreadsheetId) {
   var fromClause = "FROM campaign ";
 
   var whereClause = "WHERE segments.date BETWEEN '" + startDate + "' AND '" + endDate + "' " +
-    "AND campaign.status = 'ENABLED' " +
     "AND metrics.conversions > 0 ";
 
   var orderByClause = "ORDER BY segments.date DESC, campaign.name ASC, segments.conversion_action_name ASC";
