@@ -19,6 +19,9 @@ function main() {
 
   // デイリーのコンバージョンアクション別レポートを取得
   exportConversionReport('raw_campaign_conversion_action', startDate, endDate, SPREADSHEET_ID);
+  
+  // 広告グループ単位のレポートを取得
+  exportAdGroupConversionReport('raw_adgroup_conversion_action', startDate, endDate, SPREADSHEET_ID);
 }
 
 function exportConversionReport(sheetName, startDate, endDate, spreadsheetId) {
@@ -280,3 +283,101 @@ function exportSpecificConversionAction(conversionActionName, spreadsheetId) {
 
 // 使用例:
 // exportSpecificConversionAction('購入', SPREADSHEET_ID); // 「購入」CVアクションのみ抽出
+
+// 広告グループ単位のコンバージョンレポートを取得する関数
+function exportAdGroupConversionReport(sheetName, startDate, endDate, spreadsheetId) {
+  var spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  var sheet = spreadsheet.getSheetByName(sheetName);
+
+  // シートが存在しない場合は作成
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(sheetName);
+    console.log("新しいシート '" + sheetName + "' を作成しました。");
+  }
+
+  // 既存のデータをクリア
+  var range = sheet.getDataRange();
+  range.clearContent();
+
+  // 広告グループ単位でのコンバージョンアクション別データを取得するクエリ
+  var selectClause = "SELECT " +
+    "segments.date, " +
+    "campaign.name, " +
+    "campaign.id, " +
+    "ad_group.name, " +
+    "ad_group.id, " +
+    "segments.conversion_action_name, " +
+    "metrics.conversions, " +
+    "metrics.conversions_value, " +
+    "metrics.all_conversions, " +
+    "metrics.all_conversions_value ";
+
+  var fromClause = "FROM ad_group ";
+
+  var whereClause = "WHERE segments.date BETWEEN '" + startDate + "' AND '" + endDate + "' " +
+    "AND metrics.conversions > 0 ";
+
+  var orderByClause = "ORDER BY segments.date DESC, campaign.name ASC, ad_group.name ASC, segments.conversion_action_name ASC";
+
+  var query = selectClause + fromClause + whereClause + orderByClause;
+
+  console.log("実行するクエリ: " + query);
+
+  try {
+    var report = AdsApp.report(query);
+    report.exportToSheet(sheet);
+
+    // 日本語ヘッダーを設定
+    var headers = [
+      "日付",
+      "キャンペーン名",
+      "キャンペーンID",
+      "広告グループ名",
+      "広告グループID",
+      "コンバージョンアクション名",
+      "CV数",
+      "CV価値 (円)",
+      "全CV数",
+      "全CV価値 (円)"
+    ];
+
+    var headerRange = sheet.getRange(1, 1, 1, headers.length);
+    headerRange.setValues([headers]);
+
+    // ヘッダー行のスタイリング
+    headerRange.setBackground('#4285F4');
+    headerRange.setFontColor('white');
+    headerRange.setFontWeight('bold');
+
+    var lastRow = sheet.getLastRow();
+
+    if (lastRow > 1) {
+      // CV価値を日本円に変換
+      convertCostToYen(sheet, lastRow, 8);  // CV価値列
+      convertCostToYen(sheet, lastRow, 10); // 全CV価値列
+
+      // 数値フォーマットの設定
+      formatAdGroupNumberColumns(sheet, lastRow);
+    }
+
+    // 列幅の自動調整
+    sheet.autoResizeColumns(1, headers.length);
+
+    console.log(sheetName + " のレポート作成が完了しました。取得行数: " + (lastRow - 1) + " 行");
+
+  } catch (error) {
+    console.log("エラーが発生しました: " + error.toString());
+    throw error;
+  }
+}
+
+// 広告グループレポート用の数値列フォーマット設定
+function formatAdGroupNumberColumns(sheet, lastRow) {
+  // CV数、全CV数をカンマ区切り数値フォーマット
+  sheet.getRange(2, 7, lastRow - 1, 1).setNumberFormat('#,##0.00'); // CV数
+  sheet.getRange(2, 9, lastRow - 1, 1).setNumberFormat('#,##0.00'); // 全CV数
+
+  // CV価値、全CV価値を通貨フォーマット
+  sheet.getRange(2, 8, lastRow - 1, 1).setNumberFormat('¥#,##0'); // CV価値
+  sheet.getRange(2, 10, lastRow - 1, 1).setNumberFormat('¥#,##0'); // 全CV価値
+}
