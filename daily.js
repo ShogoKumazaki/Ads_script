@@ -19,9 +19,9 @@ function main() {
     const allDate = '2024-01-01';
 
     // レポート出力
-    // exportReport('raw_customer', 'customer', endDate, allDate, SPREADSHEET_ID);
+    exportReport('raw_customer', 'customer', endDate, allDate, SPREADSHEET_ID);
     exportReport('raw_campaign', 'campaign', endDate, startDate, SPREADSHEET_ID);
-    // exportReport('raw_ad_group', 'ad_group', endDate, startDate, SPREADSHEET_ID);
+    exportReport('raw_ad_group', 'ad_group', endDate, startDate, SPREADSHEET_ID);
   }
 
   function formatDate(date) {
