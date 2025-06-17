@@ -5,17 +5,18 @@
 
 ## テンプレートスプレッドシート
 以下のテンプレートスプレッドシートを使用して、レポートの出力先として設定します：
-![広告レポート_テンプレート](https://docs.google.com/spreadsheets/d/1MBdF2FHNYp77P-MCGQxF7l5ZHbgtbzyYaVVVKJTQDJ8/edit?usp=sharing)
+
+[広告レポート_テンプレート](https://docs.google.com/spreadsheets/d/1MBdF2FHNYp77P-MCGQxF7l5ZHbgtbzyYaVVVKJTQDJ8/edit?usp=sharing)
 
 ## スクリプト一覧
 各スクリプトのGitHubリンクは以下の通りです：
 
-- ![daily.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/daily.js) - 日次レポート
-- ![prefectures.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/prefectures.js) - 都道府県別レポート
-- ![timeSlot.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/timeSlot.js) - 時間帯別レポート
-- ![query.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/query.js) - 検索クエリレポート
-- ![keyword.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/keyword.js) - キーワードレポート
-- ![conversions_action_daily.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/conversions_action_daily.js) - コンバージョンアクション別レポート
+- [daily.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/daily.js) - 日次レポート
+- [prefectures.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/prefectures.js) - 都道府県別レポート
+- [timeSlot.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/timeSlot.js) - 時間帯別レポート
+- [query.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/query.js) - 検索クエリレポート
+- [keyword.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/keyword.js) - キーワードレポート
+- [conversions_action_daily.js](https://github.com/ShogoKumazaki/Ads_script/blob/main/conversions_action_daily.js) - コンバージョンアクション別レポート
 
 ## セットアップ手順
 
